@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+	<script src="../5.5/jquery.js"></script>
+</head>
+<body>
+<form action="news.html">
+	<input type="text" id="search"><button>搜索</button>
+	<div></div>
+	<div id="div2"></div>
+</form>
+	<table border="1">
+		<tr>
+			<td>标题</td>
+			<td>时间</td>
+			<td>内容</td>
+		</tr>
+		<?php foreach($arr as $k=>$v) { ?>
+		<tr>
+			<td><?php echo $v['title'] ?></td>
+			<td><?php echo $v['time'] ?></td>
+			<td><?php echo $v['content'] ?></td>
+			
+		</tr>
+		<?php } ?>
+		
+	</table>
+	
+</body>
+</html>
+<script type="text/javascript">
+	$('button').click(function(){
+	 var sou= $('#search').val();
+		var str='';
+		$.getJSON("http://www.cao.com/jsonp.php?callback=?",{'sou':sou},function(result){
+			for(var i in result){
+				str+='<p>'+result[i]+'<p>'
+			}
+			$('div').html(str);
+		});
+	})
+</script>
+<script>
+	$('button').click(function(){
+			var sou = $('#search').val();
+			$.get('http://www.caomingkuo.com/caomingkuo/qiqigeyu/zhoukao3/5.5/search.php?sou='+sou,function(msg){
+				//alert(msg)
+				var str = "";
+				for(i in msg){
+					str +="标题："+"<span>"+msg[i]['title']+"</span>"+"<br/>";
+					str +="内容:"+"<span>"+msg[i]['content']+"</span>"+"<br/>";
+				}
+				$('#div2').html(str);
+			},'json')
+	})
+</script>
